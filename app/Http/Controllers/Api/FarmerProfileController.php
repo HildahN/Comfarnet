@@ -20,8 +20,9 @@ class FarmerProfileController extends Controller
      */
     public function index()
     {
-        $farmerProfile = User::with('garden')->all();
-        return $this->responseSuccess($farmerProfile, 'Successfully retrieved all Events');
+        $farmerProfile = User::with('garden')->get();
+        $users = User::role('farmer')->get();
+        return $this->responseSuccess(['farmerProfile'=>$farmerProfile, 'farmer role'=>$users], 'Successfully retrieved all Events');
     }
 
 
@@ -45,6 +46,8 @@ class FarmerProfileController extends Controller
             'Education_level'=> $validated['Education_level'],
             'Farmer_group'=> $validated['Farmer_group'],
         ]);
+
+        $farmer->assignRole('farmer');
 
         // Create the Garden
         $farmer->garden()->create([

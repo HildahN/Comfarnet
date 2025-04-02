@@ -18,7 +18,7 @@ class DistrictController extends Controller
     public function index()
     {
         $districts = District::all();
-        return $this->responseSuccess($districts, 'Successfully retrieved all Events');
+        return $this->responseSuccess($districts, 'Successfully retrieved all Districts');
     }
 
 
@@ -74,7 +74,7 @@ class DistrictController extends Controller
 
         $district->delete();
 
-        return $this->responseSuccess('Event deleted successfully',  $district);
+        return $this->responseSuccess('District deleted successfully',  $district);
 
     }
 }
