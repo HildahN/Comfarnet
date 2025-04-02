@@ -20,9 +20,19 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'first_name',
+        'last_name',
+        'phone_number',
+        'NIN',
+        'Number_of_dependents',
+        'District',
+        'Village',
+        'Date_of_birth',
+        'Gender',
+        'Education_level',
+        'Farmer_group',
     ];
 
     /**
@@ -46,5 +56,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function garden()
+    {
+        return $this->hasOne(Garden::class);
     }
 }

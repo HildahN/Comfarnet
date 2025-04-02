@@ -10,8 +10,8 @@ use Laravel\Passport\HasApiTokens;
 
 class District extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable;
+    
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
