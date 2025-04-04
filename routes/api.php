@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\RolePermissionController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -36,4 +37,10 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResources([
         'permissions' => PermissionController::class
     ]);
+});
+
+
+Route::get('migrate', function(){
+    Artisan::call('migrate', ['--force' =>true]);
+    return Artisan::output();
 });
