@@ -3,7 +3,7 @@
   <!--begin::Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>comfarnet | Dashboard</title>
+    <title>{{ !empty($meta_title) ? $meta_title : '' }} | {{ config('app.name') }} </title>
     <!--begin::Primary Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="title" content="AdminLTE v4 | Dashboard" />
@@ -15,6 +15,10 @@
       name="keywords"
       content=""
     />
+
+    
+  <!-- Favicons -->
+  <link href="{{ url('/dist/assets/img/comfarnet/logo.png')}}" rel="icon">
     <!--end::Primary Meta Tags-->
     <!--begin::Fonts-->
     <link

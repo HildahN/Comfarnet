@@ -35,8 +35,8 @@
 
 
   <!-- Favicons -->
-  <link href="{{ url('assets/img/school_logo.jpg')}}" rel="icon">
-  <link href="assets/img/apple-touch-icon.png"  rel="apple-touch-icon">
+  <link href="{{ url('/dist/assets/img/comfarnet/logo.png')}}" rel="icon">
+ 
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">

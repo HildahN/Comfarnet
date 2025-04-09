@@ -31,21 +31,21 @@
           data-accordion="false"
         >
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="{{ url('admin/dashboard')}}" class="nav-link @if(Request::segment(1)== 'admin') active @endif">
               <i class="nav-icon bi bi-speedometer"></i>
               <p>Dashboard</p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon bi bi-person"></i>
+            <a href="{{ url('farmers/list')}}" class="nav-link @if(Request::segment(1)=='farmers') active @endif ">
+              <i class="nav-icon bi bi-people"></i>
               <p>Farmers</p>
             </a>
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link @if(Request::segment(1)=='gardens') active @endif">
               <i class="nav-icon bi bi-cloud-snow-fill"></i>
               <p>Gardens</p>
             </a>
