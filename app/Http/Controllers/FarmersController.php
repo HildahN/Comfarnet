@@ -35,6 +35,11 @@ class FarmersController extends Controller
      */
     public function store(Request $request)
 {
+    request()->validate([
+        'email' => 'required|email|unique:users'
+    ]);
+
+
     $user = new User();
         $user->first_name = trim($request->first_name);
         $user->last_name = trim($request->last_name);
@@ -69,7 +74,14 @@ class FarmersController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data['getRecord'] = User::getSingle($id);
+        if(!empty($data['getRecord'])){
+            $data['meta_title'] = 'edit farmers';
+            return view('admin.farmers.edit',$data);
+        }else{
+            abort(404);
+        }
+        
     }
 
     /**
@@ -77,7 +89,27 @@ class FarmersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        request()->validate([
+            'email' => 'required|email|unique:users,email,'.$id
+        ]);
+       
+        $user = User::getSingle($id);
+        $user->first_name = trim($request->first_name);
+        $user->last_name = trim($request->last_name);
+        $user->email = trim($request->email);
+        $user->phone_number = trim($request->phone_number);
+        $user->NIN = trim($request->NIN);
+        $user->Number_of_dependents = $request->Number_of_dependents;
+        $user->District = trim($request->District);
+        $user->Village = trim($request->Village);
+        $user->Date_of_birth = $request->Date_of_birth;
+        $user->Gender = $request->Gender;
+        $user->Education_level = $request->Education_level;
+        $user->Farmer_group = trim($request->Farmer_group);
+        $user->save();
+        
+        return redirect(url('farmers/list'))->with('success','Farmer Updated Successfully');
     }
 
     /**
@@ -85,6 +117,8 @@ class FarmersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::getSingle($id);
+        $user->delete();
+        return redirect()->back()->with('error','Farmer Deleted Successfully');
     }
 }
