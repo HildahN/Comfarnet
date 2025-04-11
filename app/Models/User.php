@@ -62,4 +62,18 @@ class User extends Authenticatable
     {
         return $this->hasOne(Garden::class);
     }
+
+
+    static public function getFarmer(){
+
+        return self::select('users.*')
+                     ->where('is_role','=', 2)
+                     ->orderBy('id','desc')
+                     ->get();
+
+    }
+
+    static public function getSingle($id){
+         return self::find($id);
+    }
 }

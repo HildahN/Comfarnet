@@ -1,117 +1,180 @@
-<?php
+@extends('admin.admin-layouts.app')
 
-namespace App\Http\Controllers\Api;
+@section('content')
+<main class="app-main">
+    <div class="app-content">
+        <div class="container-fluid">
+            <div class="row g-4">
+                <!-- Back Button -->
+                <div class="col-md-12 mt-3">
+                    <a href="{{ url('farmers/list') }}" class="btn btn-sm btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back To List
+                    </a>
+                </div>
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\DistrictRequest;
-use App\Http\Requests\FarmerProfileRequest;
-use App\Models\District;
-use App\Models\User;
-use App\Traits\HttpApiResponseTrait;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+                <!-- Main Form -->
+                <div class="col-md-12">
+                    <div class="card card-success card-outline mb-4">
+                        <div class="card-header">
+                            <div class="card-title">Farmer Registration</div>
+                        </div>
 
-class FarmerProfileController extends Controller
-{
-    use HttpApiResponseTrait;
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $farmerProfile = User::with('garden')->get();
-        $users = User::role('farmer')->get();
-        return $this->responseSuccess(['farmerProfile'=>$farmerProfile, 'farmer role'=>$users], 'Successfully retrieved all Events');
-    }
+                        <form action="{{ url('farmers/add') }}" method="POST">
+                            @csrf
+                            <div class="card-body">
+                                <!-- Personal Information Section -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="first_name" class="form-label">First Name *</label>
+                                            <input type="text" name="first_name" class="form-control" id="first_name" 
+                                                   value="{{ old('first_name') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="last_name" class="form-label">Last Name *</label>
+                                            <input type="text" name="last_name" class="form-control" id="last_name" 
+                                                   value="{{ old('last_name') }}" required>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <!-- Contact Information -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="phone_number" class="form-label">Phone Number *</label>
+                                            <input type="tel" name="phone_number" class="form-control" id="phone_number" 
+                                                   value="{{ old('phone_number') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Email Address</label>
+                                            <input type="email" name="email" class="form-control" id="email" 
+                                                   value="{{ old('email') }}">
+                                            <small class="text-muted">We'll never share your email with anyone else.</small>
+                                        </div>
+                                    </div>
+                                </div>
 
-    public function store(FarmerProfileRequest $request)
-    {
-        $validated = $request->validated();
+                                <!-- Identification -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="nin" class="form-label">NIN (National ID) *</label>
+                                            <input type="text" name="NIN" class="form-control" id="nin" 
+                                                   value="{{ old('NIN') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="dependents" class="form-label">Number of Dependents</label>
+                                            <input type="number" name="Number_of_dependents" class="form-control" 
+                                                   id="dependents" min="0" value="{{ old('Number_of_dependents') }}">
+                                        </div>
+                                    </div>
+                                </div>
 
-        // Create the Farmer (User)
-        $farmer = User::create([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'email' => $validated['email'],
-            'phone_number' => $validated['phone_number'],
-            'password' => Hash::make('password123'), // Default password, should be changed later
-            'NIN' => $validated['NIN'],
-            'Number_of_dependents' => $validated['Number_of_dependents'],
-            'District' => $validated['District'],
-            'Village'=> $validated['Village'],
-            'Date_of_birth'=> $validated['Date_of_birth'],
-            'Gender'=> $validated['Gender'],
-            'Education_level'=> $validated['Education_level'],
-            'Farmer_group'=> $validated['Farmer_group'],
-        ]);
+                                <!-- Location Information -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="district" class="form-label">District *</label>
+                                            <select class="form-select" name="District" id="district" required>
+                                                <option value="">Select District</option>
+                                                @foreach(['District 1', 'District 2', 'District 3'] as $district)
+                                                    <option value="{{ $district }}" {{ old('District') == $district ? 'selected' : '' }}>
+                                                        {{ $district }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="village" class="form-label">Village *</label>
+                                            <input type="text" name="Village" class="form-control" id="village" 
+                                                   value="{{ old('Village') }}" required>
+                                        </div>
+                                    </div>
+                                </div>
 
-        $farmer->assignRole('farmer');
+                                <!-- Personal Details -->
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="dob" class="form-label">Date of Birth *</label>
+                                            <input type="date" name="Date_of_birth" class="form-control" id="dob" 
+                                                   value="{{ old('Date_of_birth') }}" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Gender *</label>
+                                        <div class="d-flex gap-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="Gender" 
+                                                       id="male" value="Male" {{ old('Gender', 'Male') == 'Male' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="male">Male</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" name="Gender" 
+                                                       id="female" value="Female" {{ old('Gender') == 'Female' ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="female">Female</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-        // Create the Garden
-        $farmer->garden()->create([
-            'garden_type' => $validated['garden_type'],
-            'garden_name' => $validated['garden_name'],
-            'manager_name' => $validated['manager_name'],
-            'district_id' => $validated['district_id'],
-            'location_longtitude' => $validated['location_longtitude'],
-            'location_latitude' => $validated['location_latitude'],
-            'garden_size' => $validated['garden_size'],
-            'planting_method' => $validated['planting_method'],
-            'land_ownership' => $validated['land_ownership'],
-            'farmer_ownership' => $validated['farmer_ownership'],
-            'date_started' => $validated['date_started'],
-        ]);
+                                <!-- Education and Group -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="education" class="form-label">Education Level</label>
+                                            <select class="form-select" name="Education_level" id="education">
+                                                <option value="">Select Education Level</option>
+                                                @foreach(['None', 'Primary', 'Secondary', 'Tertiary', 'University'] as $level)
+                                                    <option value="{{ $level }}" {{ old('Education_level') == $level ? 'selected' : '' }}>
+                                                        {{ $level }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="farmer_group" class="form-label">Farmer Group</label>
+                                            <input type="text" name="Farmer_group" class="form-control" 
+                                                   id="farmer_group" value="{{ old('Farmer_group') }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-        return response()->json([
-            'message' => 'Farmer profile created successfully',
-            'farmer' => $farmer
-        ], JsonResponse::HTTP_CREATED);
-    }
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> Create Farmer
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+@endsection
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $farmerProfile = District::findOrFail($id)->get();
-        return $this->responseSuccess($farmerProfile, 'Successfully retrieved this district\'s data');
-    }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(FarmerProfileRequest $request, string $id)
-    {
-        $validated = $request->validated();
-        $farmerProfile = District::find($id);
-        
-        $farmerProfile->update($validated);
-
-        return $this->responseSuccess('District updated successfully',  $farmerProfile);
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        $farmerProfile = District::find($id);
-
-        $farmerProfile->delete();
-
-        return $this->responseSuccess('Event deleted successfully',  $farmerProfile);
-
-    }
-}
+@push('scripts')
+<script>
+    // Client-side validation or additional functionality can go here
+    document.addEventListener('DOMContentLoaded', function() {
+        // Example: Format phone number input
+        const phoneInput = document.getElementById('phone_number');
+        phoneInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9+]/g, '');
+        });
+    });
+</script>
+@endpush

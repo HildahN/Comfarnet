@@ -14,10 +14,11 @@ class AuthController extends Controller
 
     public function login_post(Request $request){
         if(Auth::attempt(['email'=> $request->email,'password'=> $request->password])){
-            if(Auth::user()){
+            if(Auth::user()->is_role==1){
                return redirect()->intended('admin/dashboard');
-            }else{
-               echo "Yooo";
+            }else if(Auth::user()->is_role == 2){
+               //echo "Please be patient the Farmers Dashboard will come soon!!!";
+               return redirect()->intended('farmer/dashboard');
             }
         }else{
             return redirect()->back()->with('error','Invalid Credentials');
