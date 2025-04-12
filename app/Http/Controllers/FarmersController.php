@@ -26,7 +26,7 @@ class FarmersController extends Controller
      */
     public function create()
     {
-        $data['meta_title'] = 'add-farmers';
+        $data['meta_title'] = 'add-farmer';
         return view('admin.farmers.add',$data);
     }
 
@@ -35,7 +35,7 @@ class FarmersController extends Controller
      */
     public function store(Request $request)
 {
-    request()->validate([
+    $request->validate([
         'email' => 'required|email|unique:users'
     ]);
 

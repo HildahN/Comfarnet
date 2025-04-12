@@ -46,7 +46,7 @@
         </li>
 
         <li class="nav-item">
-          <a href="#" class="nav-link @if(Request::segment(1)=='gardens') active @endif">
+          <a href="{{ url('gardens/list')}}" class="nav-link @if(Request::segment(1)=='gardens') active @endif">
             <i class="nav-icon bi bi-cloud-snow-fill"></i>
             <p>Gardens</p>
           </a>

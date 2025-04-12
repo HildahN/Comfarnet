@@ -76,4 +76,8 @@ class User extends Authenticatable
     static public function getSingle($id){
          return self::find($id);
     }
+
+    static public function getFarmerCount(){
+        return self::select('users.*')->where('is_role','=',2)->count();
+    }
 }
