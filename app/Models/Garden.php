@@ -13,16 +13,17 @@ class Garden extends Model
     protected $fillable = [
         'garden_type',
         'garden_name',
+        'user_id',
         'manager_name',
         'district_id',
-        'location_gps',
+        'location_longitude',
+        'location_latitude',
         'garden_size',
         'planting_method',
         'land_ownership',
         'farmer_ownership',
         'date_started',
     ];
-
     
     public function district()
     {
@@ -32,6 +33,10 @@ class Garden extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    static public function getGardenCount(){
+        return self::select('gardens.*')->count();
     }
 
 }

@@ -38,7 +38,7 @@
                 <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>#</th>
+                      {{-- <th>#</th> --}}
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Phone Number</th>
@@ -51,7 +51,7 @@
                   <tbody>
                    @foreach($getRecord as $value)
                      <tr>
-                      <td>{{$value->id}}</td>
+                      {{-- <td>{{$value->id}}</td> --}}
                       <td>{{$value->first_name}}</td>
                       <td>{{$value->last_name}}</td>
                       <td>{{$value->phone_number}}</td>

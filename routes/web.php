@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FarmersController;
+use App\Http\Controllers\GardensController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -35,6 +36,14 @@ Route::group(['middleware' => 'admin'], function(){
         Route::get('farmers/edit/{id}',[FarmersController::class,'edit']);
         Route::post('farmers/edit/{id}',[FarmersController::class,'update']);
         Route::get('farmers/delete/{id}',[FarmersController::class,'destroy']);
+
+        //Gardens
+        Route::get('gardens/list',[GardensController::class,'index']);
+        Route::get('gardens/add',[GardensController::class,'create']);
+        Route::post('gardens/add',[GardensController::class,'store']);
+        Route::get('gardens/edit/{id}',[GardensController::class,'edit']);
+        Route::post('gardens/edit/{id}',[GardensController::class,'update']);
+        Route::get('gardens/delete/{id}',[GardensController::class,'destroy']);
 
 });
 
